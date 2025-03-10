@@ -30,6 +30,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin (origins = "http://localhost:5174")
 public class UserController {
 
 

@@ -18,6 +18,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/certificate")
+@CrossOrigin (origins = "http://localhost:5174")
 public class CertificateController {
 
 
