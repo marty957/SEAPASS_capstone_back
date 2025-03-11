@@ -11,6 +11,7 @@ import com.example.capstone.payload.request.RegistrationRequest;
 import com.example.capstone.payload.response.ErrorResponse;
 import com.example.capstone.payload.response.LoginResponse;
 import com.example.capstone.security.jwt.JwtUtils;
+import com.example.capstone.security.service.UserDetailsImpl;
 import com.example.capstone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -87,7 +88,11 @@ public class UserController {
 
             String token=jwtUtils.createJwtToken(authentication);
             System.out.println("🔹 Token generato: " + token);
-            LoginResponse loginResponse=new LoginResponse(username,token);
+
+            UserDetailsImpl userDetails= (UserDetailsImpl) authentication.getPrincipal();
+            Long idUser= userDetails.getId();
+
+            LoginResponse loginResponse=new LoginResponse(username,token,idUser);
             return ResponseEntity.ok(loginResponse);
         }catch (BadCredentialsException e){
             ErrorResponse errorResponse=new ErrorResponse(HttpStatus.BAD_REQUEST,"INVALID USERNAME OR PASSWORD");
