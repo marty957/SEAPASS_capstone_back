@@ -30,7 +30,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin (origins = "http://localhost:5174")
+@CrossOrigin (origins = "http://localhost:5173")
 public class UserController {
 
 
@@ -77,10 +77,12 @@ public class UserController {
 
         try{
             String username=loginRequest.getUsername();
+            String password = loginRequest.getPassword();
             System.out.println(username);
+            System.out.println("🔑 Password: " + password);
             Authentication authentication=
                     authenticationManager.authenticate(
-                            new UsernamePasswordAuthenticationToken(username,loginRequest.getPassword()));
+                            new UsernamePasswordAuthenticationToken(username,password));
             System.out.println(authentication);
 
             String token=jwtUtils.createJwtToken(authentication);

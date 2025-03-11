@@ -61,7 +61,7 @@ public class UserService {
         defaultRole.add(userRole);
         user.setRoles(defaultRole);
         userRepository.save(user);
-        emailService.sendNotifications(user.getEmail(),"Registrazione Avvenuta con successo", "Benvenuto in SEEPASS, " +
+        emailService.sendNotifications(user.getEmail(),"Registrazione Avvenuta con successo", "Benvenuto in SEAPASS, " +
                 "l'App pensata per i marittimi come te e i tuoi certificati. SEEPASS gestirà le scadenza dei tuoi certificati dandonti un mese di preavisso.");
         return user;
    }
