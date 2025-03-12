@@ -72,9 +72,17 @@ public class JwtUtils {
 
     //validazione del token
     public boolean jwtTokenValidation(String token){
-        Jwts.parserBuilder().setSigningKey(getkey()).build().parse(token);
-        return true;
+        try {
+            Jwts.parserBuilder().setSigningKey(getkey()).build().parseClaimsJws(token);
+            return true;
+        }catch (Exception e) {
+            System.out.println("Errore di validazione JWT: " + e.getMessage());
+            return false;
+        }
     }
+
+
+
 
 
     public List<String> getRolesFromToken(String token){

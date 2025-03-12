@@ -111,6 +111,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }*/
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+    public ResponseEntity<User> getUser(@PathVariable long id){
+      User user=userService.getUserById(id);
+      return ResponseEntity.ok(user);
+
+    }
+
     @PatchMapping("{id}/image")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<?> uploadImafw(@RequestPart ("avatar")MultipartFile file,@PathVariable long id){
