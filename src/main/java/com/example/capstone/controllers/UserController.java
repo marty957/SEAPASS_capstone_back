@@ -113,7 +113,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
     public ResponseEntity<User> getUser(@PathVariable long id){
       User user=userService.getUserById(id);
       return ResponseEntity.ok(user);
