@@ -136,7 +136,7 @@ public class UserService {
         String imageUrl = (String) uploadResult.get("url");
         user.setAvatar(imageUrl);
         userRepository.save(user);
-        return "Immagine profilo salvata" + imageUrl;
+        return  imageUrl;
    }
 
 
