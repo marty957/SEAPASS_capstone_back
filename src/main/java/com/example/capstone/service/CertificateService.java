@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -71,6 +72,9 @@ public class CertificateService {
 
         return certificatePage.map(certificateDTOmapper::entity_dto);
 
+    }
+    public List<Certificate> getAllCertificate(long id){
+        return certificateRepository.findAllByUserId(id);
     }
 
     //modifica di un certificate

@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/certificate")
@@ -52,6 +53,12 @@ public class CertificateController {
     @GetMapping("{id}")
     public Certificate getCertifiateByID(@PathVariable long id){
      return certificateService.getById(id);
+    }
+
+    @GetMapping("/{id}/all")
+    public List<Certificate> getAll(@PathVariable long id){
+
+        return certificateService.getAllCertificate(id);
     }
 
     @PutMapping("{id}")

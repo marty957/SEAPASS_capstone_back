@@ -98,9 +98,7 @@ public class UserService {
         if(userDTO.getName() != null){
             user.setName(userDTO.getName());
         }
-        if(userDTO.getPassword() !=null){
-            user.setPassword(userDTO.getPassword());
-        }
+
         if(userDTO.getEmail()!= null){
             user.setEmail(userDTO.getEmail());
         }
