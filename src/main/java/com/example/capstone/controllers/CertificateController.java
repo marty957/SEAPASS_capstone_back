@@ -28,15 +28,15 @@ public class CertificateController {
     CertificateService certificateService;
 
 
-    @PostMapping(value = "/newCertificate/{idUser}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> registerCertificate(@PathVariable Long idUser,@RequestParam("name") String name,
+    @PostMapping(value = "/{id}/new",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> registerCertificate(@PathVariable Long id,@RequestParam("name") String name,
                                                  @RequestParam("description") String description,
                                                  @RequestParam("issueDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate issueDate,
                                                  @RequestParam("expireDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expireDate,
-                                                 @RequestParam("typeCert") CertificateType typeCert,
+                                                 @RequestParam(value = "typeCert",required = false) CertificateType typeCert,
                                                  @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
 
-        CertificateDTO certificateDTO=new CertificateDTO(name,description,issueDate,expireDate,idUser,null,typeCert);
+        CertificateDTO certificateDTO=new CertificateDTO(name,description,issueDate,expireDate,id,null,typeCert);
 
         // Carica il file
         if(file !=null && !file.isEmpty()) {
