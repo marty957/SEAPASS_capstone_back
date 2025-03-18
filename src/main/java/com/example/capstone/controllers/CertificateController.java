@@ -61,11 +61,25 @@ public class CertificateController {
         return certificateService.getAllCertificate(id);
     }
 
-    @PutMapping("{id}")
+    @PutMapping( value = "{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?>  editCertificate(
             @PathVariable long id,
-            @RequestBody CertificateDTO certificateDTO,
+            @RequestParam(value = "name" ) String name,
+            @RequestParam(value = "userId") long userId,
+            @RequestParam(value = "description") String description,
+            @RequestParam(value = "typeCert",required = false) CertificateType typeCert,
+            @RequestParam(value = "issueDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate issueDate,
+            @RequestParam(value = "expireDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expireDate,
             @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
+
+        CertificateDTO certificateDTO=new CertificateDTO(name,description,issueDate,expireDate,userId,null,typeCert);
+        if(file !=null && !file.isEmpty()) {
+            String pdf = certificateService.uploadFile(file);
+            certificateDTO.setPdf(pdf);
+        }else{
+            certificateDTO.setPdf(null);
+        }
+
         Certificate certificate=certificateService.updateCertificate(certificateDTO,id,file);
         return ResponseEntity.status(HttpStatus.OK).body(certificate);
 
