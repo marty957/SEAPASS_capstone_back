@@ -172,8 +172,10 @@ public class CertificateService {
 
         if(expireDate.isBefore(today.plusDays(30))){
             String subject="⚠️ il tuo certificato sta per scadere";
-            String text="Ciao, il tuo certicato" +certificate.getName()+" scade il: " +
-                    expireDate + " Rinnovalo il piu presto.";
+            String text="Ciao,\n\n"+
+                    "Un promemoria veloce per te! 📌 Il tuo certificato " + certificate.getName() + " scade il:  " + expireDate + ". ⏳\n\n"  +
+                    "Se hai bisogno di assistenza, siamo qui per aiutarti! 💡\n\n" +
+                    "A presto,\nIl team di SEAPASS 🚀";
 
             emailService.sendNotifications(email,subject,text);
         }

@@ -61,8 +61,22 @@ public class UserService {
         defaultRole.add(userRole);
         user.setRoles(defaultRole);
         userRepository.save(user);
-        emailService.sendNotifications(user.getEmail(),"Registrazione Avvenuta con successo", "Benvenuto in SEAPASS, " +
-                "l'App pensata per i marittimi come te e i tuoi certificati. SEEPASS gestirà le scadenza dei tuoi certificati dandonti un mese di preavisso.");
+
+        String subject="Benvenuto a bordo di SEAPASS! 🚢🚢";
+
+        String message= String.format("Ciao "+user.getName() +" ,\n \n "+
+                "Siamo felici di averti con noi! ⚓🛟\n\n"
+        + "SEAPASS è qui per semplificarti la vita: da oggi, gestire i tuoi certificati marittimi sarà un gioco da ragazzi.\n"
+        +"Ti avviseremo con largo anticipo sulle scadenze, così potrai navigare senza pensieri.\n\n"+
+                "⚓ Cosa puoi fare con SEAPASS?\n"
+                        + "✅ Tenere traccia dei tuoi certificati in un unico posto\n"
+                        + "✅ Ricevere promemoria prima della scadenza\n"
+                        + "✅ Avere sempre tutto a portata di mano, ovunque tu sia\n\n"
+                        + "Goditi l’esperienza e buon vento! 🌊🌞\n\n"
+                        + "L’equipaggio di SEAPASS");
+
+
+        emailService.sendNotifications(user.getEmail(),subject,message);
         return user;
    }
 
