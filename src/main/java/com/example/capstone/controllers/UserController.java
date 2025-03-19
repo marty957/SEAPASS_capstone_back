@@ -4,12 +4,14 @@ package com.example.capstone.controllers;
 import com.example.capstone.exception.EmailDuplicateException;
 import com.example.capstone.exception.UserNotFound;
 import com.example.capstone.exception.UsernameDuplicateException;
+import com.example.capstone.model.Role;
 import com.example.capstone.model.User;
 import com.example.capstone.payload.UserDTO;
 import com.example.capstone.payload.request.LoginRequest;
 import com.example.capstone.payload.request.RegistrationRequest;
 import com.example.capstone.payload.response.ErrorResponse;
 import com.example.capstone.payload.response.LoginResponse;
+import com.example.capstone.repository.UserRepository;
 import com.example.capstone.security.jwt.JwtUtils;
 import com.example.capstone.security.service.UserDetailsImpl;
 import com.example.capstone.service.UserService;
@@ -28,6 +30,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/user")
@@ -37,6 +41,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -91,8 +97,10 @@ public class UserController {
 
             UserDetailsImpl userDetails= (UserDetailsImpl) authentication.getPrincipal();
             Long idUser= userDetails.getId();
+            User user=userRepository.findByUsername(loginRequest.getUsername()).orElseThrow();
+            Set<Role> roles=user.getRoles();
 
-            LoginResponse loginResponse=new LoginResponse(username,token,idUser);
+            LoginResponse loginResponse=new LoginResponse(username,token,idUser,roles);
             return ResponseEntity.ok(loginResponse);
         }catch (BadCredentialsException e){
             ErrorResponse errorResponse=new ErrorResponse(HttpStatus.BAD_REQUEST,"INVALID USERNAME OR PASSWORD");
@@ -113,12 +121,19 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
-
     public ResponseEntity<User> getUser(@PathVariable long id){
       User user=userService.getUserById(id);
       return ResponseEntity.ok(user);
-
     }
+
+    @GetMapping("/{id}/allUser")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<User> getAllUser(@PathVariable long id){
+         List<User> utenti=userRepository.findAll();
+         return utenti;
+    }
+
+
 
     @PatchMapping("{id}/image")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
