@@ -81,17 +81,21 @@ public class UserService {
    }
 
 
-   public User registerNewAdmin(UserDTO userDTO){
-       if (userRepository.existsByEmail(userDTO.getEmail())) {
+   public User registerNewAdmin(RegistrationRequest request){
+       if (userRepository.existsByEmail(request.getEmail())) {
            throw new IllegalStateException("Email gia in uso");
        }
-       User user= userDTOmapper.dto_entity(userDTO);
-       Role adminRole= roleRepository.findByRole(UserRole.ADMIN)
-               .orElseThrow(()->new RoleNotFound("ruolo non trovato"));
-       Set<Role> adminRoles=new HashSet<>();
+       if(userRepository.existsByUsername((request.getUsername()))){
+           throw new IllegalStateException("Username Gia in uso");
+       }
 
-       adminRoles.add(adminRole);
-       user.setRoles(adminRoles);
+       User user= userDTOmapper.reg_entity(request);
+       user.setPassword(passwordEncoder.encode(request.getPassword()));
+       Role userRole= roleRepository.findByRole(UserRole.ADMIN)
+               .orElseThrow(()->new RoleNotFound("ruolo non trovato"));
+       Set<Role> defaultRole=new HashSet<>();
+       defaultRole.add(userRole);
+       user.setRoles(defaultRole);
        userRepository.save(user);
       return user;
 

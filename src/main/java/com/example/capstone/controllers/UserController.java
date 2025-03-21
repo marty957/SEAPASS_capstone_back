@@ -112,12 +112,28 @@ public class UserController {
 
     }
 
-    /*@PostMapping("/newAdmin")
+    @PostMapping("/newAdmin")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<User> registerAdmin(@RequestBody UserDTO userDTO) throws InterruptedException{
-        User user= userService.registerNewUser(userDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
-    }*/
+    public ResponseEntity<?> registerAdmin(@RequestBody @Validated RegistrationRequest nuovoUtente, BindingResult validazione) throws InterruptedException{
+        try {
+            if (validazione.hasErrors()) {
+                StringBuilder errors = new StringBuilder("Problemi nella validazione dati: \n");
+
+                for (ObjectError err : validazione.getAllErrors()) {
+                    errors.append(err.getDefaultMessage()).append("\n");
+                }
+                return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
+            }
+
+            User user = userService.registerNewAdmin(nuovoUtente);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        }catch (EmailDuplicateException e){
+            return new ResponseEntity<>("EMAIL GIA REGISTRATA",HttpStatus.BAD_REQUEST);
+        }catch (UsernameDuplicateException e){
+            return new ResponseEntity<>("USERNAME GIA IN USO",HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
