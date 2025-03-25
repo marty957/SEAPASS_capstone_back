@@ -103,7 +103,7 @@ public class CertificateService {
         certificate.setName(certificateDTO.getName());
     }
     if(certificateDTO.getExpireDate()!=null){
-        certificate.setTypeCert(certificateDTO.getTypeCert());
+        certificate.setExpireDate((certificateDTO.getExpireDate()));
     }
     if(certificateDTO.getTypeCert()!=null){
         certificate.setTypeCert(certificateDTO.getTypeCert());

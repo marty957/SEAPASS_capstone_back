@@ -7,6 +7,7 @@ import com.example.capstone.config.CloudinaryConfig;
 import com.example.capstone.enumaration.UserRole;
 import com.example.capstone.exception.RoleNotFound;
 import com.example.capstone.exception.UserNotFound;
+import com.example.capstone.exception.UsernameDuplicateException;
 import com.example.capstone.model.Role;
 import com.example.capstone.model.User;
 import com.example.capstone.payload.UserDTO;

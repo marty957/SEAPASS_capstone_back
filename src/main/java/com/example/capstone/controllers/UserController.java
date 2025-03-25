@@ -85,8 +85,7 @@ public class UserController {
         try{
             String username=loginRequest.getUsername();
             String password = loginRequest.getPassword();
-            System.out.println(username);
-            System.out.println("🔑 Password: " + password);
+
             Authentication authentication=
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(username,password));
@@ -169,12 +168,14 @@ public class UserController {
     }
 
 
-    @PutMapping("{id}")
+    @PatchMapping("{id}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     public ResponseEntity<?> modifyUser(@PathVariable long id, @RequestBody UserDTO userDTO){
 
         User user=userService.editUser(userDTO, id);
-        return  ResponseEntity.status(HttpStatus.OK).body("Utente " + user.getUsername() +" modificato");
+         //rigenerazione token
+
+        return  ResponseEntity.status(HttpStatus.OK).body(user);
 
     }
 
