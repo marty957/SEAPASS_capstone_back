@@ -1,5 +1,6 @@
+PARTE BACK-END!!
 
-🌊 SEAPASS – La Soluzione Intelligente per la Gestione dei Certificati Marittimi(parte BACK-END)
+🌊 SEAPASS – La Soluzione Intelligente per la Gestione dei Certificati Marittimi
 Il progetto SEAPASS nasce da un'esigenza concreta: lavorando a bordo delle navi da crociera, ci si rende subito conto della complessità nella gestione dei numerosi certificati richiesti per l’imbarco.
 
 🔹 Gestione Centralizzata – Con SEAPASS, tutti i tuoi certificati sono sempre a portata di mano, organizzati in un’unica piattaforma intuitiva.
