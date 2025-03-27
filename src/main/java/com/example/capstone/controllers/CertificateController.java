@@ -36,7 +36,7 @@ public class CertificateController {
                                                  @RequestParam(value = "typeCert",required = false) CertificateType typeCert,
                                                  @RequestPart(value = "file", required = false) MultipartFile file) throws IOException {
 
-        CertificateDTO certificateDTO=new CertificateDTO(name,description,issueDate,expireDate,id,null,typeCert);
+        CertificateDTO certificateDTO= new CertificateDTO(name,description,issueDate,expireDate,id,null,typeCert);
 
         // Carica il file
         if(file !=null && !file.isEmpty()) {
